@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.Diagnostics;
 using System.Linq.Expressions;
@@ -113,6 +112,10 @@ namespace Jot.Configuration
         {
             if (TargetReference.IsAlive)
             {
+#if DEBUG
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
+#endif
                 foreach (string propertyName in TrackedProperties.Keys)
                 {
                     string key = ConstructPropertyKey(propertyName);
@@ -126,6 +129,8 @@ namespace Jot.Configuration
                             object valueToApply = OnApplyingState(propertyName, storedValue);
                             descriptor.Setter(TargetReference.Target, storedValue);
                         }
+                        catch (OperationCanceledException)
+                        { }
                         catch (Exception ex)
                         {
                             Trace.WriteLine(string.Format("TRACKING: Applying tracking to property with key='{0}' failed. ExceptionType:'{1}', message: '{2}'!", key, ex.GetType().Name, ex.Message));
@@ -137,6 +142,12 @@ namespace Jot.Configuration
                     {
                         descriptor.Setter(TargetReference.Target, descriptor.DefaultValue);
                     }
+
+#if DEBUG
+                    sw.Stop();
+                    Trace.WriteLine($"Applied property {propertyName} of target {TargetReference.Target} in {sw.ElapsedMilliseconds}ms");
+                    sw.Reset();
+#endif
                 }
 
                 OnStateApplied();
