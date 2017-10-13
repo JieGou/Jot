@@ -112,7 +112,7 @@ namespace Jot.Configuration
         {
             if (TargetReference.IsAlive)
             {
-#if DEBUG && TIMINGS
+#if DEBUG
                 Stopwatch sw = new Stopwatch();
                 sw.Start();
 #endif
@@ -143,7 +143,7 @@ namespace Jot.Configuration
                         descriptor.Setter(TargetReference.Target, descriptor.DefaultValue);
                     }
 
-#if DEBUG && TIMINGS
+#if DEBUG
                     sw.Stop();
                     Trace.WriteLine($"Applied property {propertyName} of target {TargetReference.Target} in {sw.ElapsedMilliseconds}ms");
                     sw.Reset();

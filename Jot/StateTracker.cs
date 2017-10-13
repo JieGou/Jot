@@ -64,24 +64,5 @@ namespace Jot
         }
 
         #endregion
-
-        #region convenience constructors
-
-        public StateTracker(string fileName)
-            : this (new FileStore(fileName), new DesktopPersistTrigger())
-        {
-        }
-
-        public StateTracker(Environment.SpecialFolder folder)
-            : this(new FileStore(folder), new DesktopPersistTrigger())
-        {
-        }
-
-        public StateTracker(IsolatedStorageFile isolatedStorageFile)
-            : this(new IsolatedStorageStore(isolatedStorageFile), new DesktopPersistTrigger())
-        {
-        }
-
-        #endregion
     }
 }
