@@ -79,7 +79,9 @@ namespace Jot
                 if (baseConfig != null)
                     configuration = new TrackingConfiguration<T>(baseConfig);
                 else
+                {
                     configuration = new TrackingConfiguration<T>(this);
+                }
                 _typeConfigurations[typeof(T)] = configuration;
             }
             return configuration;
@@ -92,7 +94,7 @@ namespace Jot
                 return (TrackingConfiguration)config;
             else
             {
-                if (type == typeof(object))
+                if (type == typeof(object) || type.BaseType == null)
                     return null;
                 else
                     return FindConfiguration(type.BaseType);

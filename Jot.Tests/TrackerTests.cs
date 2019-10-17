@@ -94,6 +94,29 @@ namespace Jot.Tests
             Assert.Equal(testData1.Double, testData2.Double);
             Assert.Equal(testData1.Int, testData2.Int);
             Assert.Equal(testData2.Timespan, new TimeSpan(0, 0, 0));//we did not track the TimeSpan property
+
+        }
+
+        [Fact]
+        public void DetectsAttributes()
+        {
+            _tracker.Configure<FooAtt>().Id(f => "x");
+
+            //save some data
+            var testData1 = new FooAtt() { Double = 123.45, Int = 456, Timespan = new TimeSpan(99, 99, 99) };
+            _tracker.Track(testData1);
+
+            // simulate application restart and read the saved data
+            _tracker.PersistAll();
+            _tracker = new Tracker(_store);
+
+            var testData2 = new Foo();
+            _tracker.Configure<Foo>().Id(f => "x");
+            _tracker.Track(testData2);
+
+            Assert.Equal(testData1.Double, testData2.Double);
+            Assert.Equal(testData1.Int, testData2.Int);
+            Assert.Equal(testData2.Timespan, new TimeSpan(0, 0, 0));//we did not track the TimeSpan property
         }
 
         [Fact]

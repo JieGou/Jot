@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.2</Version>
+    <Version>2.1.4</Version>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Antonio Nakic-Alfirevic</Authors>
     <Company>Windy Range Software</Company>
@@ -18,12 +18,15 @@ In short: a better alternative to using settings files.</Description>
     <PackageProjectUrl>https://github.com/anakic/Jot</PackageProjectUrl>
     <RepositoryUrl>https://github.com/anakic/Jot</RepositoryUrl>
     <PackageTags>.net C# dotnet netstandard dotnetcore</PackageTags>
+    <AssemblyVersion>2.1.4.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
     <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
