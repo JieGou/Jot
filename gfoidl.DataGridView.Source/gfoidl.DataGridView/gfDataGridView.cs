@@ -12,6 +12,9 @@ namespace gfoidl.Windows.Forms
   //TODO 在Joy库中吸收此关于DataGridView的列显示(前后)顺序； 以及列排序 2021-10-02 02:07:53
 
   //TODO 注意解决由于代码编写过程中修改了列名称，导致保存的信息与窗体不一致时出现的异常情况处理
+  /// <summary>
+  /// 自定义DataGridView——增强了特性，能自动保存列Column的显示顺序以及排序状态
+  /// </summary>
   [Description("DataGridView that Saves Column Order, Width and Visibility to user.config")]
   [ToolboxBitmap(typeof(System.Windows.Forms.DataGridView))]
   public class gfDataGridView : DataGridView
@@ -75,11 +78,10 @@ namespace gfoidl.Windows.Forms
 
       if (columnOrder != null)
       {
-        var sorted = columnOrder.OrderBy(i => i.DisplayIndex);
+        var sorted = columnOrder.OrderBy(i => i.ColumnIndex);
         foreach (var item in sorted)
         {
           DataGridViewColumn dataGridViewColumn = Columns[item.ColumnIndex];
-          dataGridViewColumn.DisplayIndex = item.DisplayIndex;
 
           //dataGridViewColumn.HeaderCell.SortGlyphDirection = item.IsAscending ? SortOrder.Ascending : SortOrder.Descending;
           if (item.IsSortedColumn)
@@ -131,7 +133,6 @@ namespace gfoidl.Windows.Forms
         columnSort.Add(new ColumnSortItem
         {
           ColumnIndex = i,
-          DisplayIndex = columns[i].DisplayIndex,
           IsSortedColumn = columns[i].Equals(SortedColumn),
           IsAscending = columns[i].HeaderCell.SortGlyphDirection == SortOrder.Ascending
         });
@@ -221,11 +222,6 @@ namespace gfoidl.Windows.Forms
   [Serializable]
   public sealed class ColumnSortItem
   {
-    /// <summary>
-    /// 列显示顺序
-    /// </summary>
-    public int DisplayIndex { get; set; }
-
     /// <summary>
     /// 列序号
     /// </summary>
